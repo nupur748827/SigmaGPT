@@ -1,0 +1,133 @@
+.loginPage{
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    background-color: #212121;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.loginBox{
+
+    width: 380px;
+
+    background-color: #171717;
+
+    padding: 2.5rem;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.2rem;
+
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.3);
+
+}
+
+
+.logoText{
+
+    text-align: center;
+
+    margin: 0;
+
+    font-size: 2rem;
+
+    color: white;
+
+}
+
+
+.subText{
+
+    text-align: center;
+
+    color: #b4b4b4;
+
+    margin-top: -10px;
+
+}
+
+
+.loginInput{
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background-color: #2a2a2a;
+
+    color: white;
+
+    font-size: 0.95rem;
+
+    box-sizing: border-box;
+
+}
+
+
+.loginInput:focus{
+
+    outline: none;
+
+    border: 1px solid #339cff;
+
+}
+
+
+.loginBtn{
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background-color: #339cff;
+
+    color: white;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.loginBtn:hover{
+
+    opacity: 0.9;
+
+    transform: scale(1.01);
+
+}
+.switchAuth{
+
+    text-align:center;
+
+    color:#339cff;
+
+    cursor:pointer;
+
+    font-size:0.9rem;
+
+}
