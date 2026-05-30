@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./login.css";
 import { useState } from "react";
 
 function Login() {
@@ -13,7 +13,7 @@ function Login() {
         try {
 
             const response = await fetch(
-                "http://localhost:8080/api/auth/login",
+                `${API}/api/auth/login`,
                 {
                     method: "POST",
 
@@ -62,7 +62,7 @@ function Login() {
 
             const response = await fetch(
 
-                "http://localhost:8080/api/auth/signup",
+                `${API}/api/auth/signup`,
 
                 {
 

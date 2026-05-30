@@ -1,0 +1,1 @@
+export const API = "https://sigmagpt-0w6l.onrender.com";

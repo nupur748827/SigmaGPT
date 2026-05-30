@@ -3,6 +3,7 @@ import Chat from "./Chat.jsx";
 import { MyContext } from "./MyContext.jsx";
 import { useContext, useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
+import { API } from "./config.jsx";   // ✅ FIXED IMPORT
 
 function ChatWindow() {
 
@@ -16,7 +17,7 @@ function ChatWindow() {
         setNewChat
     } = useContext(MyContext);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false); // FIXED (was true)
     const [isOpen, setIsOpen] = useState(false);
 
     const getReply = async () => {
@@ -31,8 +32,7 @@ function ChatWindow() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization:
-               `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 message: prompt,
@@ -41,35 +41,23 @@ function ChatWindow() {
         };
 
         try {
-
-            const response = await fetch(
-                "http://localhost:8080/api/chat",
-                options
-            );
-
+            const response = await fetch(`${API}/api/chat`, options); // ✅ FIXED
             const res = await response.json();
 
             console.log("FULL RESPONSE", res);
 
-
             setReply(res.reply);
 
         } catch (err) {
-
             console.log(err);
-
         } finally {
-
             setLoading(false);
-
         }
     };
 
     // Append chats
     useEffect(() => {
-
         if (prompt && reply) {
-
             setPrevChats((prevChats) => [
                 ...prevChats,
                 {
@@ -84,7 +72,6 @@ function ChatWindow() {
 
             setPrompt("");
         }
-
     }, [reply]);
 
     const handleProfileClick = () => {
@@ -92,7 +79,6 @@ function ChatWindow() {
     };
 
     return (
-
         <div className="chatWindow">
 
             {/* Navbar */}
@@ -115,52 +101,36 @@ function ChatWindow() {
             </div>
 
             {/* Dropdown */}
-            {
-                isOpen && (
+            {isOpen && (
+                <div className="dropDown">
 
-                    <div className="dropDown">
-
-                        <div className="dropDownItem">
-                            <i className="fa-solid fa-gear"></i>
-                            {" "}Settings
-                        </div>
-
-                        <div className="dropDownItem">
-                            <i className="fa-solid fa-cloud-arrow-up"></i>
-                            {" "}Upgrade plan
-                        </div>
-
-                          <div  className="dropDownItem"
-
-                onClick={() => {
-
-                    localStorage.removeItem("token");
-
-                    window.location.reload();
-
-                }}
-            >
-                <i className="fa-solid fa-arrow-right-from-bracket"></i>
-
-                {" "}Log out
-
-            </div>
-
+                    <div className="dropDownItem">
+                        <i className="fa-solid fa-gear"></i> Settings
                     </div>
-                )
-            }
+
+                    <div className="dropDownItem">
+                        <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
+                    </div>
+
+                    <div
+                        className="dropDownItem"
+                        onClick={() => {
+                            localStorage.removeItem("token");
+                            window.location.reload();
+                        }}
+                    >
+                        <i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                    </div>
+
+                </div>
+            )}
 
             {/* Chat */}
             <Chat />
 
             {/* Loader */}
             <div className="loaderDiv">
-
-                <ScaleLoader
-                    color="#fff"
-                    loading={loading}
-                />
-
+                <ScaleLoader color="#fff" loading={loading} />
             </div>
 
             {/* Input */}
@@ -172,29 +142,20 @@ function ChatWindow() {
                         type="text"
                         placeholder="Ask anything"
                         value={prompt}
-                        onChange={(e) =>
-                            setPrompt(e.target.value)
-                        }
+                        onChange={(e) => setPrompt(e.target.value)}
                         onKeyDown={(e) =>
-                            e.key === "Enter"
-                                ? getReply()
-                                : null
+                            e.key === "Enter" ? getReply() : null
                         }
                     />
 
-                    <div
-                    id="submit"
-                    onClick={getReply}
-                    >
-                    <i className="fa-solid fa-paper-plane"></i>
-                   </div>
+                    <div id="submit" onClick={getReply}>
+                        <i className="fa-solid fa-paper-plane"></i>
+                    </div>
 
                 </div>
 
                 <p className="info">
-                    SigmaGPT can make mistakes.
-                    Check important info.
-                    See Cookie Preferences.
+                    SigmaGPT can make mistakes. Check important info.
                 </p>
 
             </div>
