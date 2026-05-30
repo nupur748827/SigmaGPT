@@ -26,6 +26,9 @@ const connectDB = async() =>{
 }
 
 connectDB();
+app.get("/", (req, res) => {
+  res.send("SigmaGPT Backend is running successfully!");
+});
 app.listen(PORT,() =>{
   console.log(`server running on ${PORT}`);
   
