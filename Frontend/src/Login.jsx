@@ -1,5 +1,7 @@
 import "./login.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { API } from "./config.jsx";
+import { MyContext } from "./MyContext";
 
 function Login() {
 
@@ -7,8 +9,10 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isSignup, setIsSignup] = useState(false);
 
+    const { setToken } = useContext(MyContext);
+
     // LOGIN USER
-    const loginUser = async() => {
+    const loginUser = async () => {
 
         try {
 
@@ -16,11 +20,9 @@ function Login() {
                 `${API}/api/auth/login`,
                 {
                     method: "POST",
-
                     headers: {
                         "Content-Type": "application/json"
                     },
-
                     body: JSON.stringify({
                         email,
                         password
@@ -30,74 +32,48 @@ function Login() {
 
             const data = await response.json();
 
-            if(data.token){
+            if (data.token) {
 
-                localStorage.setItem(
-                    "token",
-                    data.token
-                );
+                localStorage.setItem("token", data.token);
 
-                window.location.reload();
+                setToken(data.token); // ✅ IMPORTANT FIX
 
             } else {
-
                 alert(data.message);
-
             }
 
-        } catch(err){
-
+        } catch (err) {
             console.log(err);
-
         }
-
     };
 
-
-
     // SIGNUP USER
-    const signupUser = async() => {
+    const signupUser = async () => {
 
         try {
 
             const response = await fetch(
-
                 `${API}/api/auth/signup`,
-
                 {
-
                     method: "POST",
-
                     headers: {
-
                         "Content-Type": "application/json"
-
                     },
-
                     body: JSON.stringify({
-
                         email,
                         password
-
                     })
-
                 }
-
             );
 
             const data = await response.json();
 
             alert(data.message);
 
-        } catch(err){
-
+        } catch (err) {
             console.log(err);
-
         }
-
     };
-
-
 
     return (
 
@@ -105,102 +81,46 @@ function Login() {
 
             <div className="loginBox">
 
-                <h1 className="logoText">
-                    SigmaGPT
-                </h1>
+                <h1 className="logoText">SigmaGPT</h1>
 
                 <p className="subText">
-
-                    {
-                        isSignup ?
-
-                        "Create your account"
-
-                        :
-
-                        "Continue your AI conversations"
-                    }
-
+                    {isSignup ? "Create your account" : "Continue your AI conversations"}
                 </p>
-
 
                 <input
                     className="loginInput"
                     type="email"
                     placeholder="Enter email"
-
-                    onChange={(e) =>
-                        setEmail(e.target.value)
-                    }
+                    onChange={(e) => setEmail(e.target.value)}
                 />
-
 
                 <input
                     className="loginInput"
                     type="password"
                     placeholder="Enter password"
-
-                    onChange={(e) =>
-                        setPassword(e.target.value)
-                    }
+                    onChange={(e) => setPassword(e.target.value)}
                 />
-
 
                 <button
                     className="loginBtn"
-
-                    onClick={
-
-                        isSignup ?
-
-                        signupUser
-
-                        :
-
-                        loginUser
-                    }
+                    onClick={isSignup ? signupUser : loginUser}
                 >
-
-                    {
-                        isSignup ?
-
-                        "Signup"
-
-                        :
-
-                        "Login"
-                    }
-
+                    {isSignup ? "Signup" : "Login"}
                 </button>
-
-
 
                 <p
                     className="switchAuth"
-
-                    onClick={() =>
-                        setIsSignup(!isSignup)
-                    }
+                    onClick={() => setIsSignup(!isSignup)}
                 >
-
-                    {
-                        isSignup ?
-
-                        "Already have account? Login"
-
-                        :
-
-                        "Don't have account? Signup"
-                    }
-
+                    {isSignup
+                        ? "Already have account? Login"
+                        : "Don't have account? Signup"}
                 </p>
 
             </div>
 
         </div>
-
     );
-
 }
 
 export default Login;

@@ -14,16 +14,17 @@ function App() {
   const [prevChats, setPrevChats] = useState([]); //stores all chats of curr threads
   const [newChat, setNewChat] = useState(true);
   const [allThreads, setAllThreads] = useState([]);
-
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const providerValues = {
     prompt, setPrompt,
     reply, setReply,
     currThreadId, setCurrThreadId,
     newChat, setNewChat,
     prevChats, setPrevChats,
-    allThreads, setAllThreads
+    allThreads, setAllThreads,
+    token,setToken
   }; 
-   const token = localStorage.getItem("token");
+  
    
   return (
     <div className='app'>
